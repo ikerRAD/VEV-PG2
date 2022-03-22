@@ -204,7 +204,7 @@ void ShaderProgram::beforeDraw() {
 
 	/////SC
 	if (this->has_capability("sc")){
-		this->send_uniform("sc", rs->getSc())
+		this->send_uniform("sc", rs->getSc());
 		printf("en beforeDraw::sc %5.3f\n", rs->getSc());
 	}
 

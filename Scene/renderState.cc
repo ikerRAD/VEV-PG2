@@ -1,3 +1,4 @@
+
 #include <cstdio>
 #include "tools.h"
 #include "renderState.h"
@@ -17,6 +18,10 @@ RenderState::RenderState() :
 	m_drawBBox(false) {}
 
 RenderState::~RenderState() {}
+
+
+float RenderState::getSc() {return m_sc;}
+void RenderState::setSc(float v) {m_sc = v;}
 
 ///////////////////////////////////////////////////////////////
 // Matrix stack stuff

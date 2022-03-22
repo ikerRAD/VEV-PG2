@@ -44,7 +44,7 @@ float specular_f(float lambert,vec3 n, vec3 l, vec3 v){// TODO, mejorar aprovech
 	vec3 r;
 	if(lambert > 0.0){
 		rf = 2.0 * lambert;
-		r = r * n;
+		r = rf * n;
 		r = r - l;
 		
 		res = max(0.0,dot(r, v));	
@@ -61,8 +61,42 @@ void aporte_dir(in int i,in vec3 l,in vec3 n,in vec3 v,inout vec3 acum1, inout v
 		
 		float factor2 = specular_f(factor1,n,l,v); // specular_f
 		if (factor2 > 0.0){
-			factor2 = factor1 * pow(factor2, shininess);
+			factor2 = factor1 * pow(factor2, theMaterial.shininess);
 			acum2 = acum2 + factor2 * theMaterial.specular * theLights[i].specular;
+		}
+		
+	}
+	
+}
+
+float f_dist(int i, float d){
+
+	float a_dividir = theLights[i].attenuation.x + theLights[i].attenuation.y * d + theLights[i].attenuation.z * pow(d, 2);
+
+	float ret = 1.0;
+
+	if(a_dividir > 0.0){
+		ret = 1.0 / a_dividir;
+	}
+
+	return ret;
+
+}
+
+void aporte_pos(in int i,in vec3 l,in vec3 n,in vec3 v,inout vec3 acum1, inout vec3 acum2){
+	
+	float dist = length(l);
+	vec3 l2 = normalize(l);
+	float factor1 = lambert_f(n,l2);//aporte de lambert
+	float atenuacion = f_dist(i, dist);
+
+	if (factor1 > 0.0){
+		acum1 = acum1 + atenuacion * factor1 * theMaterial.diffuse * theLights[i].diffuse;
+		
+		float factor2 = specular_f(factor1,n,l2,v); // specular_f
+		if (factor2 > 0.0){
+			factor2 = factor1 * pow(factor2, theMaterial.shininess);
+			acum2 = acum2 + atenuacion * factor2 * theMaterial.specular * theLights[i].specular;
 		}
 		
 	}
@@ -91,14 +125,29 @@ void main() {
 		if (theLights[i].position.w == 0.0){//Es un vector, luz direccional
 		
 			L = normalize(-1.0 * theLights[i].position.xyz);
+			aporte_dir(i, L, N, V, acum_dif, acum_esp);
 				
 		}else{
 		
-			L = normalize(theLights[i].position.xyz - V_P); //igual para spot y positional
+			L = theLights[i].position.xyz - V_P; //igual para spot y positional
+
+
+			if (theLights[i].cosCutOff == 0){//posicional
+
+				aporte_pos(i, L, N, V, acum_dif, acum_esp);
+
+			}else{//foco
+
+				L = normalize(L);
+
+
+			}
+
+			//aporte_dir(i, L, N, V, acum_dif, acum_esp); equivalentes para cada luz
 		
 		}
 		
-		aporte_dir(i, L, N, V, acum_dif, acum_esp);
+		
 	
 	}
 	
