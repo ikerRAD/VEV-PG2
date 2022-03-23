@@ -103,6 +103,31 @@ void aporte_pos(in int i,in vec3 l,in vec3 n,in vec3 v,inout vec3 acum1, inout v
 	
 }
 
+float foco_f(vec3 l, int i){
+	return max(dot(-1.0 * l, theLights[i].spotDir), 0);
+}
+
+void aporte_foco(in int i,in vec3 l,in vec3 n,in vec3 v,inout vec3 acum1, inout vec3 acum2){
+	
+	float cosOs = foco_f(l, i);
+	if (cosOs > 0){//Evitamos cálculos
+		if (cosOs >= theLights[i].cosCutOff){//si Os es menor o igual que Ou
+			float factor1 = lambert_f(n,l);//aporte de lambert
+
+			if (factor1 > 0.0){
+				acum1 = acum1 + pow(cosOs, theLights[i].exponent) * factor1 * theMaterial.diffuse * theLights[i].diffuse;
+				
+				float factor2 = specular_f(factor1,n,l,v); // specular_f
+				if (factor2 > 0.0){
+					factor2 = factor1 * pow(factor2, theMaterial.shininess);
+					acum2 = acum2 + pow(cosOs, theLights[i].exponent) * factor2 * theMaterial.specular * theLights[i].specular;
+				}
+				
+			}
+		}
+	}
+	
+}
 
 void main() {
 	vec3 L, N, V_P, V;
@@ -139,11 +164,9 @@ void main() {
 			}else{//foco
 
 				L = normalize(L);
+				aporte_foco(i, L, N, V, acum_dif, acum_esp);
 
-
-			}
-
-			//aporte_dir(i, L, N, V, acum_dif, acum_esp); equivalentes para cada luz
+			} 
 		
 		}
 		

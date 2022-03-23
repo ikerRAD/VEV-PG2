@@ -69,7 +69,7 @@ float Line::distance(const Vector3 & P) const {
 	//Distancia a u0
 	float u0 = paramDistance(P);
 	if(u0 < 0){
-		res = -1;
+		res = 0.0; //CORRECIÓN
 		printf("Error, división entre 0\n");
 	}else{//Calculamos la distancia utilizando u0
 		Vector3 aux = P - (m_O + u0*m_d);

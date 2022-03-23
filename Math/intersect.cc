@@ -51,9 +51,9 @@ int  BBoxBBoxIntersect(const BBox *bba, const BBox *bbb ) {
 	Vector3 max_b = bbb->m_max;
     //Aplicamos las distintas reglas para detectar si las boundig boxes chocan
     //Si, colisionan para todas las dimensiones, colisionarán de verdad
-	if (min_a[0] > max_b[0] || min_b[0] > max_a[0]){
-		if (min_a[1] > max_b[1] || min_b[1] > max_a[1]){
-			if (min_a[2] > max_b[2] || min_b[2] > max_a[2]){
+	if !(min_a[0] > max_b[0] || min_b[0] > max_a[0]){			//PROPUESTA CORRECCIÓN
+		if !(min_a[1] > max_b[1] || min_b[1] > max_a[1]){		//PROPUESTA CORRECCIÓN
+			if !(min_a[2] > max_b[2] || min_b[2] > max_a[2]){	//PROPUESTA CORRECCIÓN
 				return IINTERSECT;
 			}
 		}

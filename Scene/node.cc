@@ -275,7 +275,7 @@ void Node::addChild(Node *theChild) {
 		// node does not have gObject, so attach child
 		theChild->m_parent = this;
 		m_children.push_back(theChild);
-		theChild->updateGS();
+		updateGS();
 
 	}
 }
@@ -398,7 +398,9 @@ void Node::updateWC() {
 
 void Node::updateGS() {
 	updateWC();
-	propagateBBRoot();
+	if(m_parent){
+		m_parent->propagateBBRoot(); //Correccion
+	}
 }
 
 
