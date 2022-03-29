@@ -110,17 +110,19 @@ float foco_f(vec3 l, int i){
 void aporte_foco(in int i,in vec3 l,in vec3 n,in vec3 v,inout vec3 acum1, inout vec3 acum2){
 	
 	float cosOs = foco_f(l, i);
-	if (cosOs > 0){//Evitamos cálculos
+	float spt = 0.0;
+	if (cosOs > 0.0){//Evitamos cálculos
 		if (cosOs >= theLights[i].cosCutOff){//si Os es menor o igual que Ou
 			float factor1 = lambert_f(n,l);//aporte de lambert
 
 			if (factor1 > 0.0){
-				acum1 = acum1 + pow(cosOs, theLights[i].exponent) * factor1 * theMaterial.diffuse * theLights[i].diffuse;
+				spt = pow(cosOs, theLights[i].exponent);
+				acum1 = acum1 + spt * factor1 * theMaterial.diffuse * theLights[i].diffuse;
 				
 				float factor2 = specular_f(factor1,n,l,v); // specular_f
 				if (factor2 > 0.0){
 					factor2 = factor1 * pow(factor2, theMaterial.shininess);
-					acum2 = acum2 + pow(cosOs, theLights[i].exponent) * factor2 * theMaterial.specular * theLights[i].specular;
+					acum2 = acum2 + spt * factor2 * theMaterial.specular * theLights[i].specular;
 				}
 				
 			}
