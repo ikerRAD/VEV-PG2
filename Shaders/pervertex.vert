@@ -71,15 +71,22 @@ void aporte_dir(in int i,in vec3 l,in vec3 n,in vec3 v,inout vec3 acum1, inout v
 
 float f_dist(int i, float d){
 
-	float a_dividir = theLights[i].attenuation.x + theLights[i].attenuation.y * d + theLights[i].attenuation.z * pow(d, 2);
-
 	float ret = 1.0;
 
-	if(a_dividir > 0.0){
-		ret = 1.0 / a_dividir;
-	}
+	if(d <= 0){
+		if(theLights[i].attenuation.x >= 0){
+			ret = 1.0 / theLights[i].attenuation.x;
+		}
+	}else{
 
-	return ret;
+		float a_dividir = theLights[i].attenuation.x + theLights[i].attenuation.y * d + theLights[i].attenuation.z * pow(d, 2);
+
+		if(a_dividir > 0.0){
+			ret = 1.0 / a_dividir;
+		}
+	}
+	
+	return min(ret, 1.0);
 
 }
 
