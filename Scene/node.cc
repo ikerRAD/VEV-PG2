@@ -386,6 +386,8 @@ void Node::updateWC() {
 		}
 	}
 
+	updateBB();
+
 }
 
 //
@@ -481,6 +483,28 @@ void Node::setCulled(bool culled) {
 
 void Node::frustumCull(Camera *cam) {
 	/* =================== PUT YOUR CODE HERE ====================== */
+	int col  = cam->checkFrustum(m_containerWC, 0);
+
+	if (col == -IREJECT){ // Todo está dentro
+		setCulled(0);
+	}else if (col == IREJECT){ // Todo está fuera
+		setCulled(1);
+	}else{ //intersecta
+		if (m_gObject){ //objeto intersecta, se dibuja
+			m_isCulled = 0;
+		}else{//nodo intermedio intersecta, depende de los hijos
+			m_isCulled = 0;
+			for(auto it = m_children.begin(), end = m_children.end();
+				it != end; ++it) {
+				Node *theChild = *it;
+				
+				theChild->frustumCull(cam);
+
+			}
+
+		}
+	}
+
 
 	/* =================== END YOUR CODE HERE ====================== */
 }

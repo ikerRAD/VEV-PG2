@@ -311,7 +311,25 @@ int Camera::checkFrustum(const BBox *theBBox,
 						 unsigned int *planesBitM) {
 	/* =================== PUT YOUR CODE HERE ====================== */
 
-	return -1; // BBox is fully inside the frustum
+	int provisional;
+	int intersecta = 0;
+
+	for(int i = 0; i < 6; i++){
+		provisional = BBoxPlaneIntersect(theBBox, m_fPlanes [i]);
+
+		if( provisional == IREJECT ){
+			return 1;
+		}else if (provisional == IINTERSECT){
+			intersecta ++;
+		}
+	}
+
+	if (intersecta > 0){
+		return 0;
+	}
+
+	return -1;
+
 	/* =================== END YOUR CODE HERE ====================== */
 }
 
