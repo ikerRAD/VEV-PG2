@@ -275,6 +275,14 @@ void ShaderProgram::beforeDraw() {
 				this->send_uniform("specmap", Constants::gl_texunits::specular); // Texture unit 2
 			}
 		}
+		if (this->has_capability("multitex")) {
+			Texture *tex2 = mat->getTexture(1);
+			if (tex2 != 0) {
+				tex2->bindGLUnit(Constants::gl_texunits::rest);
+				this->send_uniform("texture1", Constants::gl_texunits::rest);
+				this->send_uniform("uCloudOffset", rs->getCloudsOffset());
+			}
+		}
 	}
 }
 

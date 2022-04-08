@@ -241,4 +241,12 @@ void RenderState::print() const {
 
 	printf("Shader: %s\n", m_activeShader ? m_activeShader->getName() : "NULL");
 	bool m_drawBBox;
+
+
 }
+
+
+
+//Multitex
+void RenderState::setCloudsOffset(float v){m_cloudsOffset = v;};
+float RenderState::getCloudsOffset(){return m_cloudsOffset;};

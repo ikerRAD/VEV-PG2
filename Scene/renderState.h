@@ -207,6 +207,10 @@ public:
 	void setSc(float v);
 	float getSc();
 
+	//Multitex
+	void setCloudsOffset(float v);
+	float getCloudsOffset();
+
 private:
 	RenderState();
 	~RenderState();
@@ -250,4 +254,7 @@ private:
 	Node *m_skybox;
 
 	float m_sc;
+
+	//Multitex
+	float m_cloudsOffset;
 };

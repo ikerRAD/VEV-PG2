@@ -502,6 +502,7 @@ void idle(void) {
 }
 
 void animate(int value) {
+	static float c = 0.0;
 	// Set up the next timer tick (do this first)
 	glutTimerFunc(MG_TIMERMSECS, animate, 0);
 
@@ -513,7 +514,12 @@ void animate(int value) {
 	// ##### REPLACE WITH YOUR OWN GAME/APP MAIN CODE HERE #####
 	if (runAnimation) {
 		// Force a redisplay to render the new image
-
+		if(c > 1.0){
+			c = 0.0;
+		}else{
+			c += 0.001;
+		}
+		RenderState::instance()->setCloudsOffset(c);
 		glutPostRedisplay();
 	}
 	// ##### END OF GAME/APP MAIN CODE #####
