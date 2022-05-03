@@ -63,7 +63,7 @@ void CreateSkybox(GObject *gobj,
 		exit(1);
 	}
 	/* =================== PUT YOUR CODE HERE ====================== */
-
+	Node newNode = Node();
 	/* =================== END YOUR CODE HERE ====================== */
 }
 

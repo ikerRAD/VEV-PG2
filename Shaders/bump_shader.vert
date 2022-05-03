@@ -47,8 +47,7 @@ void main() {
     bn = (modelToCameraMatrix * vec4(v_TBN_b,0.0)).xyz;
     bn = normalize(bn);
 
-    vec3 v_pos = (modelToCameraMatrix * vec4(v_position,0.0)).xyz;
-    v_pos = normalize(v_pos);
+    vec3 v_pos = (modelToCameraMatrix * vec4(v_position,1.0)).xyz;
 
     vec3 tmp;
 
