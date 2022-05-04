@@ -35,18 +35,17 @@ float lambert_f(vec3 n, vec3 l){
 	return max(dot(n,l),0.0);
 }
 
-float specular_f(float lambert,vec3 n, vec3 l, vec3 v){// TODO, mejorar aprovechando el lambert d antes
+float specular_f(vec3 n, vec3 l, vec3 v){// TODO, mejorar aprovechando el lambert d antes
 	float res = 0.0;
-	float rf;
 	vec3 r;
-	if(lambert > 0.0){
-		rf = 2.0 * lambert;
-		r = rf * n;
-		r = r - l;
-		
-		res = max(0.0,dot(r, v));	
-	}
 
+    r = normalize(2.0*dot(n, l)*n - l);
+
+    float RoV = dot(r, v);
+
+    if (RoV > 0.0)
+            res = pow(RoV, theMaterial.shininess);
+    
 	return res;
 }
 
@@ -56,10 +55,9 @@ void aporte_dir(in int i,in vec3 l,in vec3 n,in vec3 v,inout vec3 acum1, inout v
 	if (factor1 > 0.0){
 		acum1 = acum1 + factor1 * theMaterial.diffuse * theLights[i].diffuse;
 		
-		float factor2 = specular_f(factor1,n,l,v); // specular_f
+		float factor2 = specular_f(n,l,v); // specular_f
 		if (factor2 > 0.0){
-			factor2 = factor1 * pow(factor2, theMaterial.shininess);
-			acum2 = acum2 + factor2 * theMaterial.specular * theLights[i].specular;
+			acum2 = acum2 + factor2 * factor1 * theMaterial.specular * theLights[i].specular;
 		}
 		
 	}
@@ -97,10 +95,9 @@ void aporte_pos(in int i,in vec3 l,in vec3 n,in vec3 v,inout vec3 acum1, inout v
 	if (factor1 > 0.0){
 		acum1 = acum1 + atenuacion * factor1 * theMaterial.diffuse * theLights[i].diffuse;
 		
-		float factor2 = specular_f(factor1,n,l2,v); // specular_f
+		float factor2 = specular_f(n,l2,v); // specular_f
 		if (factor2 > 0.0){
-			factor2 = factor1 * pow(factor2, theMaterial.shininess);
-			acum2 = acum2 + atenuacion * factor2 * theMaterial.specular * theLights[i].specular;
+			acum2 = acum2 + atenuacion * factor1 * factor2 * theMaterial.specular * theLights[i].specular;
 		}
 		
 	}
@@ -123,10 +120,9 @@ void aporte_foco(in int i,in vec3 l,in vec3 n,in vec3 v,inout vec3 acum1, inout 
 				spt = pow(cosOs, theLights[i].exponent);
 				acum1 = acum1 + spt * factor1 * theMaterial.diffuse * theLights[i].diffuse;
 				
-				float factor2 = specular_f(factor1,n,l,v); // specular_f
+				float factor2 = specular_f(n,l,v); // specular_f
 				if (factor2 > 0.0){
-					factor2 = factor1 * pow(factor2, theMaterial.shininess);
-					acum2 = acum2 + spt * factor2 * theMaterial.specular * theLights[i].specular;
+					acum2 = acum2 + spt * factor1 * factor2 * theMaterial.specular * theLights[i].specular;
 				}
 				
 			}
