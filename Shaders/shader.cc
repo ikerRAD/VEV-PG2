@@ -283,12 +283,13 @@ void ShaderProgram::beforeDraw() {
 				this->send_uniform("uCloudOffset", rs->getCloudsOffset());
 			}
 		}
-		if (this->has_capability("cube_env")) {
-			if (tex != 0) {
-				tex->bindGLUnit(Constants::gl_texunits::envmap);
-				this->send_uniform("envmap", Constants::gl_texunits::envmap);
-				this->send_uniform("campos", rs->getCamera()->getPosition());
-			}
+	}
+	if (this->has_capability("cube_env")) {
+		tex = TextureManager::instance()->find("CubeEnv");
+		if (tex != 0) {
+			tex->bindGLUnit(Constants::gl_texunits::envmap);
+			this->send_uniform("envmap", Constants::gl_texunits::envmap);
+			this->send_uniform("campos", rs->getCamera()->getPosition());
 		}
 	}
 }
