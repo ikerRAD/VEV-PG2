@@ -446,6 +446,13 @@ void Node::draw() {
 		rs->push(RenderState::modelview);
 		//cargar transf global
 		rs->addTrfm(RenderState::modelview, m_placementWC);
+
+		// CORRECCIÓN DE MAMEN
+		// FIJAMOS LA TRANSFORMACION EN LA PILA DEL MODELO: 
+		// (PARA CONSEGUIR DESPUES LA MATRIZ QUE VA DEL ESPACIO DEL MODELO AL ESPACIO DEL MUNDO)
+		// See: TrfmStack m_modelStack; // model space to world space
+		rs->loadTrfm(RenderState::model, m_placementWC);
+
 		//dibujo
 		m_gObject->draw();
 		//Pop

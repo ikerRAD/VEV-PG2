@@ -186,8 +186,10 @@ void main() {
 
 	//////////////
 
-	vec3 Iw = normalize(f_positionw - campos); // esto deberia ser al reves
-	vec3 Rw = 2.0 * dot(f_normalw, Iw) * f_normalw - Iw;
+	// CORRECCIÓN DE MAMEN (Normalizar la normal)
+	vec3 Iw = normalize(campos - f_positionw);
+	vec3 Nw = normalize(f_normalw);
+	vec3 Rw = 2.0 * dot(Nw, Iw) * Nw - Iw;
 	Rw.z = -1.0 * Rw.z;
 
 
