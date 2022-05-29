@@ -55,7 +55,7 @@ void aporte_dir(in int i,in vec3 l,in vec3 n,in vec3 v,inout vec3 acum1, inout v
 		
 		float factor2 = specular_f(n,l,v); // specular_f
 		if (factor2 > 0.0){
-			acum2 = acum2 + * factor1 * factor2 * texel.rgb * theLights[i].specular;
+			acum2 = acum2 + factor1 * factor2 * texel.rgb * theLights[i].specular;
 		}
 		
 	}
