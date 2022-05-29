@@ -248,5 +248,5 @@ void RenderState::print() const {
 
 
 //Multitex
-void RenderState::setCloudsOffset(float v){m_cloudsOffset = v;};
-float RenderState::getCloudsOffset(){return m_cloudsOffset;};
+void RenderState::setCloudsOffset(float v){m_cloudsOffset = v;}
+float RenderState::getCloudsOffset(){return m_cloudsOffset;}
