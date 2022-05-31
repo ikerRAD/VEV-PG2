@@ -485,8 +485,7 @@ void Node::setCulled(bool culled) {
 	}
 }
 
-// @@ TODO: Frustum culling. See if a subtree is culled by the camera, and
-//          update m_isCulled accordingly.
+
 
 void Node::frustumCull(Camera *cam) {
 	/* =================== PUT YOUR CODE HERE ====================== */

@@ -37,7 +37,7 @@ float lambert_f(vec3 n, vec3 l){
 	return max(dot(n,l),0.0);
 }
 
-float specular_f(vec3 n, vec3 l, vec3 v){// TODO, mejorar aprovechando el lambert d antes
+float specular_f(vec3 n, vec3 l, vec3 v){
 	float res = 0.0;
 	vec3 r;
 

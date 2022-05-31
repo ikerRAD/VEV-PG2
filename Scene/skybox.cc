@@ -14,7 +14,7 @@
 using std::vector;
 using std::string;
 
-// TODO: create skybox object given gobject, shader name of cubemap texture.
+
 //
 // This function does the following:
 //
@@ -75,7 +75,7 @@ void CreateSkybox(GObject *gobj,
 	/* =================== END YOUR CODE HERE ====================== */
 }
 
-// TODO: display the skybox
+
 //
 // This function does the following:
 //
